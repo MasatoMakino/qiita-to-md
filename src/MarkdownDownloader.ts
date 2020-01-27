@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 import { format } from "date-fns";
+import { Options } from "./Options";
 const Qiita = require("qiita-js");
 const tokenJson = require("../.qiita_token.json");
 import { ImageDownloader } from "./ImageDownloader";
@@ -13,12 +14,14 @@ export class MarkdownDownloader {
   static staticRoot = "./static";
   static imgDir = "img/post";
 
-  public static async download() {
+  public static async download(options: Options) {
     Qiita.setToken(tokenJson.token);
     Qiita.setEndpoint("https://qiita.com");
-    Qiita.Resources.AuthenticatedUser.get_authenticated_user().then(async user => {
-      await MarkdownDownloader.getItems(user.items_count);
-    });
+    Qiita.Resources.AuthenticatedUser.get_authenticated_user().then(
+      async user => {
+        await MarkdownDownloader.getItems(user.items_count);
+      }
+    );
     console.log("downloaded md");
   }
 
