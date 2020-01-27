@@ -13,19 +13,20 @@ export class MarkdownDownloader {
   static staticRoot = "./static";
   static imgDir = "img/post";
 
-  public static download() {
+  public static async download() {
     Qiita.setToken(tokenJson.token);
     Qiita.setEndpoint("https://qiita.com");
-    Qiita.Resources.AuthenticatedUser.get_authenticated_user().then(user => {
-      MarkdownDownloader.getItems(user.items_count);
+    Qiita.Resources.AuthenticatedUser.get_authenticated_user().then(async user => {
+      await MarkdownDownloader.getItems(user.items_count);
     });
+    console.log("downloaded md");
   }
 
   /**
    * 記事リストを取得する。
    * @param itemsCount
    */
-  static getItems(itemsCount: number) {
+  static async getItems(itemsCount: number) {
     const MAX_ITEM_PER_PAGE = 100;
     const pageNum = Math.ceil(itemsCount / MAX_ITEM_PER_PAGE);
 
@@ -34,8 +35,8 @@ export class MarkdownDownloader {
         page: i,
         per_page: MAX_ITEM_PER_PAGE
       }).then(result => {
-        result.forEach(item => {
-          MarkdownDownloader.reformatItem(item);
+        result.forEach(async item => {
+          await MarkdownDownloader.reformatItem(item);
         });
       });
     }
@@ -65,14 +66,17 @@ export class MarkdownDownloader {
       this.staticRoot,
       this.imgDir
     );
-    body = await ImageDownloader.getHTMLImages(body, this.staticRoot, this.imgDir);
+    body = await ImageDownloader.getHTMLImages(
+      body,
+      this.staticRoot,
+      this.imgDir
+    );
     return body;
   }
 
   static async reformatItem(item) {
     this.makeDir();
     const body = await this.makeBody(item);
-
     const date = new Date(item.created_at);
     const tags = MarkdownDownloader.getTagArray(item.tags);
 

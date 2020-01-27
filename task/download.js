@@ -1,3 +1,2 @@
 const qd = require("../bin");
-
-qd.MarkdownDownloader.download();
+qd.JsonGenerator.generate();

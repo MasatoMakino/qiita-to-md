@@ -7,3 +7,4 @@ global.fetch = require('node-fetch').default;
 
 export * from "./ImageDownloader";
 export * from "./MarkdownDownloader";
+export * from "./JsonGenerator";
