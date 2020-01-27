@@ -10,6 +10,7 @@ export class Options {
 
 export class OptionsUtil {
   public static init(options: Options): Options {
+    options = options ?? {};
     options.contentsDir = options.contentsDir ?? "./contents";
     options.jsonDir = options.jsonDir ?? "json";
     options.mdDir = options.mdDir ?? "md";

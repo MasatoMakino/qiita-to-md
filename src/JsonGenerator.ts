@@ -4,18 +4,16 @@ const processmd = require("processmd").default;
 const defaultOptions = require("processmd/defaultOptions.js");
 
 export class JsonGenerator {
-  public static async generate(options: Options) {
+  public static async generate(options?: Options) {
     options = OptionsUtil.init(options);
     await MarkdownDownloader.download(options);
 
     const processMDOptions = this.initProcessMDOptions();
-
     processmd(processMDOptions, (err, data) => {
       if (err) {
         process.stderr.write(JSON.stringify(err));
       }
       if (processMDOptions.stdout) {
-        // Indent JSON 2 spaces.
         process.stdout.write(JSON.stringify(data, null, 2));
       }
     });

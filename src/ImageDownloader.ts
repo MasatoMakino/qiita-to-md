@@ -3,47 +3,42 @@ const path = require("path");
 const request = require("request");
 
 export class ImageDownloader {
+
   /**
    * markdownに記載されたQiitaサーバー内の画像をダウンロードし、参照URLを書き換える。
    * @param markdown
    * @param imgDir
-   * @return {*}
    */
   public static async getMarkdownImages(
-    markdown,
-    staticRoot,
-    imgDir
+    markdown: string,
+    imgDir: string
   ): Promise<string> {
     const regex = /(\!\[.*\]\()(https:\/\/qiita-image-store.*.com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))(\))/g;
-    return await this.convertImageLink(regex, markdown, staticRoot, imgDir);
+    return await this.convertImageLink(regex, markdown, imgDir);
   }
 
   /**
    * <img>タグで記載されたQiitaサーバー内の画像をダウンロードし、参照URLを書き換える。
    * @param markdown
    * @param imgDir
-   * @return {void | string}
    */
   public static async getHTMLImages(
-    markdown,
-    staticRoot,
-    imgDir
+    markdown: string,
+    imgDir: string
   ): Promise<string> {
     const regex = /(<img\s*src=\s*")(https:\/\/qiita-image-store.*com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))("[^<]*>)/g;
-    return await this.convertImageLink(regex, markdown, staticRoot, imgDir);
+    return await this.convertImageLink(regex, markdown, imgDir);
   }
 
   /**
    * 画像ファイルをダウンロードし、画像リンクを書き換える
    * @param regex
    * @param markdown
-   * @param staticRoot
    * @param imgDir
    */
   static convertImageLink(
     regex: RegExp,
     markdown,
-    staticRoot: string,
     imgDir: string
   ): Promise<string> {
     const founds = markdown.matchAll(regex);
@@ -51,7 +46,7 @@ export class ImageDownloader {
     for (const found of founds) {
       const url = found[2];
       const fileName = found[3];
-      ImageDownloader.downloadImage(url, staticRoot, imgDir, fileName);
+      ImageDownloader.downloadImage(url, imgDir, fileName);
     }
 
     markdown = markdown.replace(
@@ -73,7 +68,6 @@ export class ImageDownloader {
    */
   static async downloadImage(
     url: string,
-    staticRoot: string,
     imgDir: string,
     fileName: string
   ): Promise<null> {
@@ -87,17 +81,12 @@ export class ImageDownloader {
           return reject();
         }
 
-        fs.writeFile(
-          path.resolve(staticRoot, imgDir, fileName),
-          imgBody,
-          "binary",
-          err => {
-            if (err) {
-              console.log(err);
-            }
-            return resolve();
+        fs.writeFile(path.resolve(imgDir, fileName), imgBody, "binary", err => {
+          if (err) {
+            console.log(err);
           }
-        );
+          return resolve();
+        });
       });
     });
   }

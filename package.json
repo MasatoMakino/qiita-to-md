@@ -18,12 +18,14 @@
     "@types/node": "^13.5.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
+    "rimraf": "^3.0.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "watch:build": "npx tsc --project ./tsconfig.json -w",
-    "getQiita": "node ./task/download.js"
+    "getQiita": "node ./task/download.js",
+    "remove": "rimraf ./contents ./static"
   }
 }
