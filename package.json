@@ -23,6 +23,7 @@
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
+    "watch:build": "npx tsc --project ./tsconfig.json -w",
     "getQiita": "node ./task/download.js"
   }
 }
