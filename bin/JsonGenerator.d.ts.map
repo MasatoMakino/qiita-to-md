@@ -1,0 +1,1 @@
+{"version":3,"file":"JsonGenerator.d.ts","sourceRoot":"","sources":["../src/JsonGenerator.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,OAAO,EAAe,MAAM,WAAW,CAAC;AAEjD,qBAAa,aAAa;WACJ,QAAQ,CAAC,OAAO,CAAC,EAAE,OAAO;IAe9C,MAAM,CAAC,oBAAoB,CAAC,OAAO,EAAE,OAAO;CAoB7C"}
