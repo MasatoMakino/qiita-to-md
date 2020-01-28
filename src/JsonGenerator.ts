@@ -32,6 +32,8 @@ export class JsonGenerator {
       options.contentsDir,
       options.jsonDir
     );
+    processMDOptions.preview = 600;
+    processMDOptions.previewDelimiter = '。';
     processMDOptions.markdownOptions.html = true;
     processMDOptions.summaryOutput = path.resolve(
       processMDOptions.outputDir,
