@@ -23,19 +23,19 @@ export class JsonGenerator {
 
   static initProcessMDOptions(options: Options) {
     const processMDOptions = Object.assign({}, defaultOptions);
-    processMDOptions.files = path.resolve(
+    processMDOptions.files = path.join(
       options.contentsDir,
       options.mdDir,
       "**/*.md"
     );
-    processMDOptions.outputDir = path.resolve(
+    processMDOptions.outputDir = path.join(
       options.contentsDir,
       options.jsonDir
     );
     processMDOptions.preview = 600;
     processMDOptions.previewDelimiter = '。';
     processMDOptions.markdownOptions.html = true;
-    processMDOptions.summaryOutput = path.resolve(
+    processMDOptions.summaryOutput = path.join(
       processMDOptions.outputDir,
       "summary.json"
     );

@@ -32,12 +32,12 @@ class JsonGenerator {
     }
     static initProcessMDOptions(options) {
         const processMDOptions = Object.assign({}, defaultOptions);
-        processMDOptions.files = path.resolve(options.contentsDir, options.mdDir, "**/*.md");
-        processMDOptions.outputDir = path.resolve(options.contentsDir, options.jsonDir);
+        processMDOptions.files = path.join(options.contentsDir, options.mdDir, "**/*.md");
+        processMDOptions.outputDir = path.join(options.contentsDir, options.jsonDir);
         processMDOptions.preview = 600;
         processMDOptions.previewDelimiter = '。';
         processMDOptions.markdownOptions.html = true;
-        processMDOptions.summaryOutput = path.resolve(processMDOptions.outputDir, "summary.json");
+        processMDOptions.summaryOutput = path.join(processMDOptions.outputDir, "summary.json");
         return processMDOptions;
     }
 }
