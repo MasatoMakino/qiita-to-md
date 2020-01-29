@@ -59,9 +59,14 @@ export class MarkdownDownloader {
   static async makeBody(item, options: Options) {
     let body = await ImageDownloader.getMarkdownImages(
       item.body,
+      options.staticDir,
       options.imgDir
     );
-    body = await ImageDownloader.getHTMLImages(body, options.imgDir);
+    body = await ImageDownloader.getHTMLImages(
+      body,
+      options.staticDir,
+      options.imgDir
+    );
     return body;
   }
 

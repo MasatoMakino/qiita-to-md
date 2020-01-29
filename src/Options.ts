@@ -4,6 +4,7 @@ export class Options {
   contentsDir?: string;
   jsonDir?: string;
   mdDir?: string;
+  staticDir?: string;
   imgDir?: string;
   token?: string;
 }
@@ -14,7 +15,9 @@ export class OptionsUtil {
     options.contentsDir = options.contentsDir ?? "./contents";
     options.jsonDir = options.jsonDir ?? "json";
     options.mdDir = options.mdDir ?? "md";
-    options.imgDir = options.imgDir ?? "./static/img/post";
+    options.staticDir = options.staticDir ?? "./static/";
+    options.imgDir = options.imgDir ?? "img/post";
+
     options.token = options.token ?? path.resolve(".qiita_token.json");
     return options;
   }

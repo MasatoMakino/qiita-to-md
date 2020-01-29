@@ -15,10 +15,11 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "@types/node": "^13.5.0",
+    "@types/node": "^13.5.1",
+    "husky": "^4.2.1",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   },
@@ -27,5 +28,10 @@
     "watch:build": "npx tsc --project ./tsconfig.json -w",
     "getQiita": "node ./task/download.js",
     "remove": "rimraf ./contents ./static"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
