@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ImageDownloader = void 0;
 const fs = require("fs");
 const path = require("path");
 const request = require("request");
