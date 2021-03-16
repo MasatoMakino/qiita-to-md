@@ -74,7 +74,7 @@ export class ImageDownloader {
     staticDir: string,
     imgDir: string,
     fileName: string
-  ): Promise<null> {
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
       request({ method: "GET", url: url, encoding: null }, function(
         error,
