@@ -26,6 +26,6 @@ export declare class ImageDownloader {
      * @param imgDir
      * @param fileName
      */
-    static downloadImage(url: string, staticDir: string, imgDir: string, fileName: string): Promise<null>;
+    static downloadImage(url: string, staticDir: string, imgDir: string, fileName: string): Promise<void>;
 }
 //# sourceMappingURL=ImageDownloader.d.ts.map
