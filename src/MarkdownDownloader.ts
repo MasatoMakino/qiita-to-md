@@ -1,11 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const Qiita = require("qiita-js");
-// const tokenJson = require("../.qiita_token.json");
 
-import { format } from "date-fns";
-import { ImageDownloader } from "./ImageDownloader";
-import { Options } from "./Options";
+import {format} from "date-fns";
+import {ImageDownloader} from "./ImageDownloader";
+import {Options} from "./Options";
 
 export class MarkdownDownloader {
   public static async download(options: Options) {
