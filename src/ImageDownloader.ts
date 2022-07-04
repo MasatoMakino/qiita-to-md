@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const request = require("request");
+import * as https from "https";
+import stream from "stream";
 
 export class ImageDownloader {
   /**
@@ -76,27 +77,30 @@ export class ImageDownloader {
     fileName: string
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      request({ method: "GET", url: url, encoding: null }, function(
-        error,
-        response,
-        imgBody
-      ) {
-        if (error || response.statusCode !== 200) {
-          return reject();
-        }
 
-        fs.writeFile(
-          path.resolve(staticDir, imgDir, fileName),
-          imgBody,
-          "binary",
-          err => {
-            if (err) {
-              console.log(err);
-            }
-            return resolve();
-          }
-        );
+      https.get( url , (response) =>{
+        const data = new stream.Transform();
+        response.on('data', (chunk)=> {
+          data.push(chunk);
+        });
+
+        response.on('end', ()=> {
+          const filePath = path.resolve(staticDir, imgDir, fileName);
+          fs.mkdirSync( path.dirname(filePath), {recursive:true} );
+          fs.writeFile(
+              filePath,
+              data.read(),
+              "binary",
+              err => {
+                if (err) {
+                  console.log(err);
+                }
+                return resolve();
+              }
+          );
+        });
       });
+
     });
   }
 }

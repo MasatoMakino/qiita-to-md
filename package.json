@@ -11,8 +11,7 @@
     "date-fns": "^2.28.0",
     "node-fetch": "^2.6.7",
     "processmd": "^4.6.3",
-    "qiita-js": "^0.4.3",
-    "request": "^2.88.2"
+    "qiita-js": "^0.4.3"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
