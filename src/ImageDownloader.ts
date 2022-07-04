@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 import * as https from "https";
-import stream from "stream";
 
 export class ImageDownloader {
   /**
@@ -14,7 +13,8 @@ export class ImageDownloader {
     staticDir: string,
     imgDir: string
   ): Promise<string> {
-    const regex = /(\!\[.*\]\()(https:\/\/qiita-image-store.*.com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))(\))/g;
+    const regex =
+      /(\!\[.*\]\()(https:\/\/qiita-image-store.*.com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))(\))/g;
     return await this.convertImageLink(regex, markdown, staticDir, imgDir);
   }
 
@@ -28,7 +28,8 @@ export class ImageDownloader {
     staticDir: string,
     imgDir: string
   ): Promise<string> {
-    const regex = /(<img\s*src=\s*")(https:\/\/qiita-image-store.*com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))("[^<]*>)/g;
+    const regex =
+      /(<img\s*src=\s*")(https:\/\/qiita-image-store.*com\/.*\/([a-z0-9\-]+\.(gif|jpe?g|png)))("[^<]*>)/g;
     return await this.convertImageLink(regex, markdown, staticDir, imgDir);
   }
 
@@ -77,30 +78,23 @@ export class ImageDownloader {
     fileName: string
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-
-      https.get( url , (response) =>{
-        const data = new stream.Transform();
-        response.on('data', (chunk)=> {
-          data.push(chunk);
-        });
-
-        response.on('end', ()=> {
+      https.get(url, (response) => {
+        if (response.statusCode === 200) {
           const filePath = path.resolve(staticDir, imgDir, fileName);
-          fs.mkdirSync( path.dirname(filePath), {recursive:true} );
-          fs.writeFile(
-              filePath,
-              data.read(),
-              "binary",
-              err => {
-                if (err) {
-                  console.log(err);
-                }
-                return resolve();
-              }
+          fs.mkdirSync(path.dirname(filePath), { recursive: true });
+          response
+            .pipe(fs.createWriteStream(filePath))
+            .on("error", reject)
+            .once("close", () => {
+              resolve(filePath);
+            });
+        } else {
+          response.resume();
+          reject(
+            new Error(`Image Download Failed With : ${response.statusCode}`)
           );
-        });
+        }
       });
-
     });
   }
 }

@@ -2,9 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const Qiita = require("qiita-js");
 
-import {format} from "date-fns";
-import {ImageDownloader} from "./ImageDownloader";
-import {Options} from "./Options";
+import { format } from "date-fns";
+import { ImageDownloader } from "./ImageDownloader";
+import { Options } from "./Options";
 
 export class MarkdownDownloader {
   public static async download(options: Options) {
@@ -12,7 +12,8 @@ export class MarkdownDownloader {
     Qiita.setToken(tokenJson.token);
     Qiita.setEndpoint("https://qiita.com");
 
-    const user = await Qiita.Resources.AuthenticatedUser.get_authenticated_user();
+    const user =
+      await Qiita.Resources.AuthenticatedUser.get_authenticated_user();
     await MarkdownDownloader.getItems(user.items_count, options);
   }
 
@@ -28,7 +29,7 @@ export class MarkdownDownloader {
     for (let i = 1; i <= pageNum; i++) {
       const result = await Qiita.Resources.Item.list_authenticated_user_items({
         page: i,
-        per_page: MAX_ITEM_PER_PAGE
+        per_page: MAX_ITEM_PER_PAGE,
       });
 
       for (let item of result) {
@@ -43,11 +44,10 @@ export class MarkdownDownloader {
   static makeDir(options: Options): void {
     //TODO 非同期化
     const option = {
-      recursive: true
+      recursive: true,
     };
     fs.mkdirSync(path.resolve(options.contentsDir, options.mdDir), option);
     fs.mkdirSync(path.resolve(options.contentsDir, options.jsonDir), option);
-    fs.mkdirSync(path.resolve(options.imgDir), option);
   }
 
   /**
@@ -96,7 +96,7 @@ categories: [${tags.join(", ")}]
    * @param tags
    */
   static getTagArray(tags) {
-    return tags.map(val => {
+    return tags.map((val) => {
       return val.name;
     });
   }
