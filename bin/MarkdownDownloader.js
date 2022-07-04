@@ -37,7 +37,7 @@ class MarkdownDownloader {
             for (let i = 1; i <= pageNum; i++) {
                 const result = yield Qiita.Resources.Item.list_authenticated_user_items({
                     page: i,
-                    per_page: MAX_ITEM_PER_PAGE
+                    per_page: MAX_ITEM_PER_PAGE,
                 });
                 for (let item of result) {
                     yield this.reformatItem(item, options);
@@ -51,11 +51,10 @@ class MarkdownDownloader {
     static makeDir(options) {
         //TODO 非同期化
         const option = {
-            recursive: true
+            recursive: true,
         };
         fs.mkdirSync(path.resolve(options.contentsDir, options.mdDir), option);
         fs.mkdirSync(path.resolve(options.contentsDir, options.jsonDir), option);
-        fs.mkdirSync(path.resolve(options.imgDir), option);
     }
     /**
      * 記事本文を整形する。
@@ -91,7 +90,7 @@ categories: [${tags.join(", ")}]
      * @param tags
      */
     static getTagArray(tags) {
-        return tags.map(val => {
+        return tags.map((val) => {
             return val.name;
         });
     }

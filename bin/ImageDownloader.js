@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,7 +35,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageDownloader = void 0;
 const fs = require("fs");
 const path = require("path");
-const request = require("request");
+const https = __importStar(require("https"));
 class ImageDownloader {
     /**
      * markdownに記載されたQiitaサーバー内の画像をダウンロードし、参照URLを書き換える。
@@ -65,16 +88,21 @@ class ImageDownloader {
     static downloadImage(url, staticDir, imgDir, fileName) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                request({ method: "GET", url: url, encoding: null }, function (error, response, imgBody) {
-                    if (error || response.statusCode !== 200) {
-                        return reject();
+                https.get(url, (response) => {
+                    if (response.statusCode === 200) {
+                        const filePath = path.resolve(staticDir, imgDir, fileName);
+                        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+                        response
+                            .pipe(fs.createWriteStream(filePath))
+                            .on("error", reject)
+                            .once("close", () => {
+                            resolve(filePath);
+                        });
                     }
-                    fs.writeFile(path.resolve(staticDir, imgDir, fileName), imgBody, "binary", err => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        return resolve();
-                    });
+                    else {
+                        response.resume();
+                        reject(new Error(`Image Download Failed With : ${response.statusCode}`));
+                    }
                 });
             });
         });
