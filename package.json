@@ -27,10 +27,5 @@
     "watch:build": "npx tsc --project ./tsconfig.json -w",
     "getQiita": "node ./task/download.js",
     "remove": "rimraf ./contents ./static"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }
