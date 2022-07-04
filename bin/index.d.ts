@@ -1,8 +1,5 @@
-/// <reference types="node" />
-import Global = NodeJS.Global;
-export interface GlobalWithCognitoFix extends Global {
-    fetch: any;
-}
+import "./fetch-polyfill";
+
 export * from "./ImageDownloader";
 export * from "./MarkdownDownloader";
 export * from "./JsonGenerator";

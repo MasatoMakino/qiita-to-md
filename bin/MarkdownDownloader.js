@@ -13,7 +13,6 @@ exports.MarkdownDownloader = void 0;
 const fs = require("fs");
 const path = require("path");
 const Qiita = require("qiita-js");
-// const tokenJson = require("../.qiita_token.json");
 const date_fns_1 = require("date-fns");
 const ImageDownloader_1 = require("./ImageDownloader");
 class MarkdownDownloader {
@@ -83,7 +82,7 @@ categories: [${tags.join(", ")}]
 ---
 
 `;
-            const filePath = path.resolve(options.contentsDir, options.mdDir, `${date_fns_1.format(date, "yyyy-MM-dd-HHmmss_")}${item.id}.md`);
+            const filePath = path.resolve(options.contentsDir, options.mdDir, `${(0, date_fns_1.format)(date, "yyyy-MM-dd-HHmmss_")}${item.id}.md`);
             fs.writeFileSync(filePath, header + body);
         });
     }
