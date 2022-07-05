@@ -108,5 +108,5 @@ dist
 contents
 static
 
-./src/qiita-types.d.ts
-./bin
+src/qiita-types.d.ts
+./bin/
