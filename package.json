@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/node": "^18.0.0",
     "husky": "^8.0.1",
+    "json-schema-to-typescript": "^11.0.1",
     "prettier": "^2.7.1",
     "pretty-quick": "^3.1.3",
     "rimraf": "^3.0.2",
@@ -26,6 +27,8 @@
     "build": "npx tsc --project ./tsconfig.json",
     "watch:build": "npx tsc --project ./tsconfig.json -w",
     "getQiita": "node ./task/download.js",
-    "remove": "rimraf ./contents ./static"
+    "remove": "rimraf ./contents ./static",
+    "generate-schema": "curl https://qiita.com/api/v2/schema | npx json2ts > ./src/qiita-types.d.ts",
+    "queryTest": "node ./task/query.js"
   }
 }
