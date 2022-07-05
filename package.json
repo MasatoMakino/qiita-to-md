@@ -28,11 +28,12 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "build": "npm run generate-schema && npx tsc --project ./tsconfig.json",
+    "build": "npm run generate-schema:src && npm run generate-schema:bin && npx tsc --project ./tsconfig.json",
     "watch:build": "npx tsc --project ./tsconfig.json -w",
     "getQiita": "node ./task/download.js",
-    "remove": "rimraf ./contents ./static",
-    "generate-schema": "curl https://qiita.com/api/v2/schema | npx json2ts > ./src/qiita-types.d.ts",
+    "remove": "rimraf ./contents ./static ./bin",
+    "generate-schema:src": "curl https://qiita.com/api/v2/schema | npx json2ts >./src/qiita-types.d.ts",
+    "generate-schema:bin": "mkdir -p ./bin && curl https://qiita.com/api/v2/schema | npx json2ts >./bin/qiita-types.d.ts",
     "queryTest": "node ./task/query.js"
   },
   "bugs": {
