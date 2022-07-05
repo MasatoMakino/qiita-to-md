@@ -1,19 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const Qiita = require("qiita-js");
 
 import { format } from "date-fns";
 import { ImageDownloader } from "./ImageDownloader";
 import { Options } from "./Options";
+import { QiitaRequest } from "./QiitaRequest";
 
 export class MarkdownDownloader {
   public static async download(options: Options) {
     const tokenJson = require(options.token);
-    Qiita.setToken(tokenJson.token);
-    Qiita.setEndpoint("https://qiita.com");
 
-    const user =
-      await Qiita.Resources.AuthenticatedUser.get_authenticated_user();
+    QiitaRequest.token = tokenJson.token;
+
+    const user = await QiitaRequest.getAuthenticatedUser();
     await MarkdownDownloader.getItems(user.items_count, options);
   }
 
@@ -27,9 +26,9 @@ export class MarkdownDownloader {
     const pageNum = Math.ceil(itemsCount / MAX_ITEM_PER_PAGE);
 
     for (let i = 1; i <= pageNum; i++) {
-      const result = await Qiita.Resources.Item.list_authenticated_user_items({
-        page: i,
-        per_page: MAX_ITEM_PER_PAGE,
+      const result = await QiitaRequest.listAuthenticatedUserItems({
+        page: i.toString(),
+        per_page: MAX_ITEM_PER_PAGE.toString(),
       });
 
       for (let item of result) {

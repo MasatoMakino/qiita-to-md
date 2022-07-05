@@ -107,3 +107,6 @@ dist
 .idea
 contents
 static
+
+./src/qiita-types.d.ts
+./bin
