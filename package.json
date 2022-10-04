@@ -4,6 +4,7 @@
   "description": "Markdown generator from qiita.com",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/qiita-to-md.git"
@@ -15,7 +16,9 @@
   ],
   "dependencies": {
     "date-fns": "^2.29.3",
-    "processmd": "^4.6.3"
+    "processmd": "^4.6.3",
+    "remark": "^14.0.2",
+    "remark-html": "^15.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.8.1",

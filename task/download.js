@@ -1,2 +1,3 @@
-const qd = require("../bin");
-qd.JsonGenerator.generate();
+import { JsonGenerator } from "../bin/index.js";
+
+JsonGenerator.generate();

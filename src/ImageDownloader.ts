@@ -1,11 +1,12 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
 import * as https from "https";
+import path from "path";
 
 export class ImageDownloader {
   /**
    * markdownに記載されたQiitaサーバー内の画像をダウンロードし、参照URLを書き換える。
    * @param markdown
+   * @param staticDir
    * @param imgDir
    */
   public static async getMarkdownImages(
@@ -21,6 +22,7 @@ export class ImageDownloader {
   /**
    * <img>タグで記載されたQiitaサーバー内の画像をダウンロードし、参照URLを書き換える。
    * @param markdown
+   * @param staticDir
    * @param imgDir
    */
   public static async getHTMLImages(
@@ -86,7 +88,7 @@ export class ImageDownloader {
             .pipe(fs.createWriteStream(filePath))
             .on("error", reject)
             .once("close", () => {
-              resolve(filePath);
+              resolve();
             });
         } else {
           response.resume();

@@ -1,9 +1,11 @@
-const path = require("path");
-const processmd = require("processmd").default;
-const defaultOptions = require("processmd/defaultOptions.js");
+import path from "path";
+import ProcessMD from "processmd";
+import defaultOptions from "processmd/defaultOptions.js";
 
-import { MarkdownDownloader } from "./MarkdownDownloader";
-import { Options, OptionsUtil } from "./Options";
+// import {remark} from "remark";
+// import remarkHtml from "remark-html";
+import { MarkdownDownloader } from "./MarkdownDownloader.js";
+import { Options, OptionsUtil } from "./Options.js";
 
 export class JsonGenerator {
   public static async generate(options?: Options) {
@@ -11,7 +13,7 @@ export class JsonGenerator {
     await MarkdownDownloader.download(options);
 
     const processMDOptions = this.initProcessMDOptions(options);
-    processmd(processMDOptions, (err, data) => {
+    ProcessMD.default(processMDOptions, (err, data) => {
       if (err) {
         process.stderr.write(JSON.stringify(err));
       }
@@ -33,12 +35,18 @@ export class JsonGenerator {
       options.jsonDir
     );
     processMDOptions.preview = 600;
-    processMDOptions.previewDelimiter = '。';
+    processMDOptions.previewDelimiter = "。";
     processMDOptions.markdownOptions.html = true;
     processMDOptions.summaryOutput = path.join(
       processMDOptions.outputDir,
       "summary.json"
     );
+
+    // processMDOptions.markdownRenderer = async (str) =>{
+    //   const result = await remark().use(remarkHtml).process(str);
+    //   return result.toString();
+    // }
+
     return processMDOptions;
   }
 }
