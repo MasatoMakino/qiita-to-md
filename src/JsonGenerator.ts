@@ -2,8 +2,8 @@ import path from "path";
 import ProcessMD from "processmd";
 import defaultOptions from "processmd/defaultOptions.js";
 
-// import {remark} from "remark";
-// import remarkHtml from "remark-html";
+import { remark } from "remark";
+import remarkHtml from "remark-html";
 import { MarkdownDownloader } from "./MarkdownDownloader.js";
 import { Options, OptionsUtil } from "./Options.js";
 
@@ -42,10 +42,10 @@ export class JsonGenerator {
       "summary.json"
     );
 
-    // processMDOptions.markdownRenderer = async (str) =>{
-    //   const result = await remark().use(remarkHtml).process(str);
-    //   return result.toString();
-    // }
+    processMDOptions.markdownRenderer = (str) => {
+      const result = remark().use(remarkHtml).processSync(str);
+      return result.value;
+    };
 
     return processMDOptions;
   }
