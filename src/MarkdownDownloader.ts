@@ -2,9 +2,8 @@ import { format } from "date-fns";
 import fs from "fs";
 import { createRequire } from "module";
 import path from "path";
-import { ImageDownloader } from "./ImageDownloader.js";
+import { ImageDownloader, QiitaRequest } from "./index.js";
 import { Options } from "./Options.js";
-import { QiitaRequest } from "./QiitaRequest.js";
 
 export class MarkdownDownloader {
   public static async download(options: Options) {

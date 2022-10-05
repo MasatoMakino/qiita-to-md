@@ -1,7 +1,7 @@
 import path from "path";
 import ProcessMD from "processmd";
 import defaultOptions from "processmd/defaultOptions.js";
-import { MarkdownDownloader } from "./MarkdownDownloader.js";
+import { MarkdownDownloader } from "./index.js";
 import { Options, OptionsUtil } from "./Options.js";
 
 export class JsonGenerator {
