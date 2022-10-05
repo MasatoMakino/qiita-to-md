@@ -15,6 +15,7 @@
     "bin"
   ],
   "dependencies": {
+    "commander": "^9.4.1",
     "date-fns": "^2.29.3",
     "processmd": "^4.6.3",
     "remark": "^14.0.2",
