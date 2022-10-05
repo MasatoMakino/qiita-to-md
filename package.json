@@ -5,6 +5,9 @@
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
   "type": "module",
+  "bin": {
+    "qiita-to-md": "./bin/CLI.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/qiita-to-md.git"
