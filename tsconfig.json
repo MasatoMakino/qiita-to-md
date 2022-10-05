@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
+    "module": "ES2020",
     "declaration": true,
     "declarationMap": true,
     "outDir": "./bin",

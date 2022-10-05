@@ -1,16 +1,18 @@
-const qd = require("../bin");
-const path = require("path");
+import { QiitaRequest } from "../bin";
+import path from "path";
+import { createRequire } from "module";
 
 const tokenPath = path.resolve(".qiita_token.json");
+const require = createRequire(import.meta.url);
 const tokenSetting = require(tokenPath);
 
-qd.QiitaRequest.token = tokenSetting.token;
+QiitaRequest.token = tokenSetting.token;
 
 const test = async () => {
-  const user = await qd.QiitaRequest.getAuthenticatedUser();
+  const user = await QiitaRequest.getAuthenticatedUser();
   console.log(user);
 
-  const items = await qd.QiitaRequest.listAuthenticatedUserItems({
+  const items = await QiitaRequest.listAuthenticatedUserItems({
     page: "1",
     per_page: "50",
   });

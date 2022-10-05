@@ -1,13 +1,13 @@
-const fs = require("fs");
-const path = require("path");
-
 import { format } from "date-fns";
-import { ImageDownloader } from "./ImageDownloader";
-import { Options } from "./Options";
-import { QiitaRequest } from "./QiitaRequest";
+import fs from "fs";
+import { createRequire } from "module";
+import path from "path";
+import { ImageDownloader, QiitaRequest } from "./index.js";
+import { Options } from "./Options.js";
 
 export class MarkdownDownloader {
   public static async download(options: Options) {
+    const require = createRequire(import.meta.url);
     const tokenJson = require(options.token);
 
     QiitaRequest.token = tokenJson.token;
