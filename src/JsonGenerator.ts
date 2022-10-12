@@ -1,6 +1,12 @@
 import path from "path";
 import ProcessMD from "processmd";
 import defaultOptions from "processmd/defaultOptions.js";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+
+import { unified } from "unified";
 import { MarkdownDownloader } from "./index.js";
 import { Options, OptionsUtil } from "./Options.js";
 
@@ -39,10 +45,15 @@ export class JsonGenerator {
       "summary.json"
     );
 
-    // processMDOptions.markdownRenderer = (str) => {
-    //   const result = remark().use(remarkHtml).processSync(str);
-    //   return result.value;
-    // };
+    processMDOptions.markdownRenderer = (str) => {
+      const result = unified()
+        .use(remarkParse) // markdown -> mdast の変換
+        .use(remarkRehype) // mdast -> hast の変換
+        .use(rehypeHighlight, { ignoreMissing: true })
+        .use(rehypeStringify) // hast -> html の変換
+        .processSync(str); // 実行
+      return result.value;
+    };
 
     return processMDOptions;
   }

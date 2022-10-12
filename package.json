@@ -21,8 +21,11 @@
     "commander": "^9.4.1",
     "date-fns": "^2.29.3",
     "processmd": "^4.6.3",
-    "remark": "^14.0.2",
-    "remark-html": "^15.0.1"
+    "rehype-highlight": "^5.0.2",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@types/node": "^18.8.1",
@@ -33,6 +36,9 @@
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
+  },
+  "resolutions": {
+    "highlight.js": "^11.6.0"
   },
   "scripts": {
     "build": "npm run generate-schema:src && npm run generate-schema:bin && npx tsc --project ./tsconfig.json",
