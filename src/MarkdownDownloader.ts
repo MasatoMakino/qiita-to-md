@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import fs from "fs";
 import { createRequire } from "module";
 import path from "path";
@@ -13,7 +12,7 @@ export class MarkdownDownloader {
     QiitaRequest.token = tokenJson.token;
 
     const user = await QiitaRequest.getAuthenticatedUser();
-    await MarkdownDownloader.getItems(user.items_count, options);
+    return await MarkdownDownloader.getItems(user.items_count, options);
   }
 
   /**
@@ -25,6 +24,7 @@ export class MarkdownDownloader {
     const MAX_ITEM_PER_PAGE = 100;
     const pageNum = Math.ceil(itemsCount / MAX_ITEM_PER_PAGE);
 
+    const items = [];
     for (let i = 1; i <= pageNum; i++) {
       const result = await QiitaRequest.listAuthenticatedUserItems({
         page: i.toString(),
@@ -32,9 +32,10 @@ export class MarkdownDownloader {
       });
 
       for (let item of result) {
-        await this.reformatItem(item, options);
+        items.push(await this.reformatItem(item, options));
       }
     }
+    return items;
   }
 
   /**
@@ -45,7 +46,6 @@ export class MarkdownDownloader {
     const option = {
       recursive: true,
     };
-    fs.mkdirSync(path.resolve(options.contentsDir, options.mdDir), option);
     fs.mkdirSync(path.resolve(options.contentsDir, options.jsonDir), option);
   }
 
@@ -70,24 +70,14 @@ export class MarkdownDownloader {
 
   static async reformatItem(item, options: Options) {
     this.makeDir(options);
-    const body = await this.makeBody(item, options);
-    const date = new Date(item.created_at);
-    const tags = MarkdownDownloader.getTagArray(item.tags);
-
-    const header = `---
-title: "${item.title}"
-created_at: ${item.created_at}
-categories: [${tags.join(", ")}]
----
-
-`;
-
-    const filePath = path.resolve(
-      options.contentsDir,
-      options.mdDir,
-      `${format(date, "yyyy-MM-dd-HHmmss_")}${item.id}.md`
-    );
-    fs.writeFileSync(filePath, header + body);
+    const bodyContent = await this.makeBody(item, options);
+    return {
+      title: item.title,
+      created_at: item.created_at,
+      id: item.id,
+      categories: MarkdownDownloader.getTagArray(item.tags),
+      bodyContent,
+    };
   }
 
   /**

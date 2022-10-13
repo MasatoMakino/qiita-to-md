@@ -21,11 +21,13 @@
     "commander": "^9.4.1",
     "date-fns": "^2.29.3",
     "highlight.js": "^11.6.0",
-    "processmd": "^4.6.3",
     "rehype-highlight": "^5.0.2",
     "rehype-stringify": "^9.0.3",
+    "remark-link-card": "^1.3.1",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
+    "retext-stringify": "^3.1.0",
+    "strip-markdown": "^5.0.0",
     "unified": "^10.1.2"
   },
   "devDependencies": {
