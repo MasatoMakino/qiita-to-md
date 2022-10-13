@@ -20,6 +20,7 @@
   "dependencies": {
     "commander": "^9.4.1",
     "date-fns": "^2.29.3",
+    "highlight.js": "^11.6.0",
     "processmd": "^4.6.3",
     "rehype-highlight": "^5.0.2",
     "rehype-stringify": "^9.0.3",
