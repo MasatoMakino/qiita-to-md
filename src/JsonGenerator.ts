@@ -19,7 +19,7 @@ export class JsonGenerator {
     const items = await MarkdownDownloader.download(options);
 
     for (let item of items) {
-      item.bodyHTML = await this.convertToHTML(item.bodyContent);
+      item.bodyHtml = await this.convertToHTML(item.bodyContent);
       item.preview = await this.convertToPreview(item.bodyContent);
       await fs.writeFile(
         this.getFilePath(item, options),
@@ -27,17 +27,19 @@ export class JsonGenerator {
       );
     }
 
-    const summary = { flatMap: {}, sourceFileArray: [] };
+    const summary = { fileMap: {}, sourceFileArray: [] };
     for (let item of items) {
       const filePath = path.relative(
         process.cwd(),
         this.getFilePath(item, options)
       );
-      summary.flatMap[filePath] = {
+      summary.fileMap[filePath] = {
         title: item.title,
         created_at: item.created_at,
         categories: item.categories,
         preview: item.preview,
+        dir: path.join(options.contentsDir, options.jsonDir),
+        base: this.getFileBase(item),
       };
       summary.sourceFileArray.push(filePath);
     }
@@ -52,10 +54,14 @@ export class JsonGenerator {
     return path.resolve(
       options.contentsDir,
       options.jsonDir,
-      `${format(new Date(item.created_at), "yyyy-MM-dd-HHmmss_")}${
-        item.id
-      }.json`
+      this.getFileBase(item)
     );
+  }
+
+  private static getFileBase(item): string {
+    return `${format(new Date(item.created_at), "yyyy-MM-dd-HHmmss_")}${
+      item.id
+    }.json`;
   }
 
   static async convertToHTML(body: string) {
