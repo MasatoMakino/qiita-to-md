@@ -18,6 +18,7 @@ export class JsonGenerator {
     options = OptionsUtil.init(options);
     const items = await MarkdownDownloader.download(options);
 
+    //記事jsonの生成と保存
     for (let item of items) {
       item.bodyHtml = await this.convertToHTML(item.bodyContent);
       item.preview = await this.convertToPreview(item.bodyContent);
@@ -27,6 +28,7 @@ export class JsonGenerator {
       );
     }
 
+    //記事オブジェクトからサマリーjsonの生成
     const summary = { fileMap: {}, sourceFileArray: [] };
     for (let item of items) {
       const filePath = path.relative(
@@ -44,12 +46,19 @@ export class JsonGenerator {
       summary.sourceFileArray.push(filePath);
     }
 
+    //サマリーの保存
     await fs.writeFile(
       path.resolve(options.contentsDir, options.jsonDir, `summary.json`),
       JSON.stringify(summary, null, 2)
     );
   }
 
+  /**
+   * 記事情報からjsonファイルの保存パスを生成する
+   * @param item
+   * @param options
+   * @private
+   */
   private static getFilePath(item, options?: Options): string {
     return path.resolve(
       options.contentsDir,
@@ -58,12 +67,21 @@ export class JsonGenerator {
     );
   }
 
+  /**
+   * 記事作成日付とIDからユニークなファイル名を生成する
+   * @param item
+   * @private
+   */
   private static getFileBase(item): string {
     return `${format(new Date(item.created_at), "yyyy-MM-dd-HHmmss_")}${
       item.id
     }.json`;
   }
 
+  /**
+   * マークダウン本文からHTMLを生成する
+   * @param body
+   */
   static async convertToHTML(body: string) {
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
@@ -74,6 +92,10 @@ export class JsonGenerator {
     return result.value;
   }
 
+  /**
+   * マークダウン本文からプレビュー用プレーンテキストを生成する
+   * @param body
+   */
   static async convertToPreview(body: string) {
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
