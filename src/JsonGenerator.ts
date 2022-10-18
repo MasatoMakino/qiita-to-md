@@ -4,6 +4,7 @@ import path from "path";
 
 import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
+import remarkLinkCard from "remark-link-card";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import retextStringify from "retext-stringify";
@@ -85,10 +86,12 @@ export class JsonGenerator {
   static async convertToHTML(body: string) {
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
-      .use(remarkRehype) // mdast -> hast の変換
+      .use(remarkLinkCard)
+      .use(remarkRehype, { allowDangerousHtml: true }) // mdast -> hast の変換
       .use(rehypeHighlight, { ignoreMissing: true })
-      .use(rehypeStringify) // hast -> html の変換
+      .use(rehypeStringify, { allowDangerousHtml: true }) // hast -> html の変換
       .process(body); // 実行
+
     return result.value;
   }
 
