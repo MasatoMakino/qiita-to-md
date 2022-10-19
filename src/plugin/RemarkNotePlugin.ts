@@ -3,7 +3,7 @@ import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
 export class RemarkNotePlugin {
-  private static readonly NOTE_REGEXP = /^:::note\s*([a-z]*)\n/m;
+  private static readonly NOTE_REGEXP = /^:::\s*note\s*([a-z]*)\n/m;
   private static readonly NOTE_ENDING: string = "\n:::";
 
   public static plugin: Plugin = () => {

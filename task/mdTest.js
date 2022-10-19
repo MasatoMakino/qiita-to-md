@@ -18,6 +18,10 @@ const result = await JsonGenerator.convertToHTML(`
 ノート
 :::
 
+:::    note warn
+ノート
+:::
+
 `);
 
 console.log(result);
