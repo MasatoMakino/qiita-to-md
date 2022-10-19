@@ -45,7 +45,7 @@ export class JsonGenerator {
         dir: path.join(options.contentsDir, options.jsonDir),
         base: this.getFileBase(item),
       };
-      summary.sourceFileArray.push(filePath);
+      summary.sourceFileArray.unshift(filePath);
     }
 
     //サマリーの保存
