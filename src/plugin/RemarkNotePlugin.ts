@@ -4,7 +4,6 @@ import { visit } from "unist-util-visit";
 
 export class RemarkNotePlugin {
   private static readonly NOTE_REGEXP = /^:::note\s*([a-z]*)\n/m;
-  // private static readonly NOTE_BEGINNING: string = ":::note";
   private static readonly NOTE_ENDING: string = "\n:::";
 
   public static plugin: Plugin = () => {
@@ -104,6 +103,11 @@ export class RemarkNotePlugin {
     return match?.[0].length;
   }
 
+  /**
+   * note型を指定されたmdastをhastのdivに変換する
+   * @param h
+   * @param node
+   */
   public static rehypeNoteHandler(h: H, node: any) {
     return {
       type: "element",
