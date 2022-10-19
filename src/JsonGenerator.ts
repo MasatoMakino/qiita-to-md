@@ -13,6 +13,7 @@ import { unified } from "unified";
 
 import { MarkdownDownloader } from "./index.js";
 import { Options, OptionsUtil } from "./Options.js";
+import { RemarkNotePlugin } from "./plugin/RemarkNotePlugin.js";
 
 export class JsonGenerator {
   public static async generate(options?: Options) {
@@ -83,11 +84,16 @@ export class JsonGenerator {
    * マークダウン本文からHTMLを生成する
    * @param body
    */
-  static async convertToHTML(body: string) {
+  public static async convertToHTML(body: string) {
+    // @ts-ignore
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
+      .use(RemarkNotePlugin.plugin)
       .use(remarkLinkCard)
-      .use(remarkRehype, { allowDangerousHtml: true }) // mdast -> hast の変換
+      .use(remarkRehype, {
+        handlers: { note: RemarkNotePlugin.rehypeNoteHandler as any },
+        allowDangerousHtml: true,
+      }) // mdast -> hast の変換
       .use(rehypeHighlight, { ignoreMissing: true })
       .use(rehypeStringify, { allowDangerousHtml: true }) // hast -> html の変換
       .process(body); // 実行

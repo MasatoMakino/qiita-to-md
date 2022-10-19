@@ -20,6 +20,7 @@
   "dependencies": {
     "commander": "^9.4.1",
     "date-fns": "^2.29.3",
+    "hastscript": "^7.1.0",
     "highlight.js": "^11.6.0",
     "rehype-highlight": "^5.0.2",
     "rehype-stringify": "^9.0.3",
@@ -52,7 +53,8 @@
     "remove": "rimraf ./contents ./static ./bin",
     "generate-schema:src": "curl https://qiita.com/api/v2/schema | npx json2ts >./src/qiita-types.d.ts",
     "generate-schema:bin": "mkdir -p ./bin && curl https://qiita.com/api/v2/schema | npx json2ts >./bin/qiita-types.d.ts",
-    "queryTest": "node ./task/query.js"
+    "queryTest": "node ./task/query.js",
+    "mdTest": "node ./task/mdTest.js"
   },
   "bugs": {
     "url": "https://github.com/MasatoMakino/qiita-to-md/issues"
