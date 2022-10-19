@@ -53,6 +53,7 @@ export class MarkdownDownloader {
    * 記事本文を整形する。
    * Qiitaサーバーに保存された画像はローカルに取得、リンクを書き換える。
    * @param item
+   * @param options
    */
   static async makeBody(item, options: Options) {
     let body = await ImageDownloader.getMarkdownImages(
