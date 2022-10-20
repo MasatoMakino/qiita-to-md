@@ -32,6 +32,12 @@ const qiitaToMD = require("qiita-to-md");
 qiitaToMD.JsonGenerator.generate();
 ```
 
+### run on CLI
+
+```shell
+npx @masatomakino/qiita-to-md
+```
+
 ## License
 
 [MIT licensed](LICENSE).
