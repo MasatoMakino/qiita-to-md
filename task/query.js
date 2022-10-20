@@ -8,6 +8,10 @@ const tokenSetting = require(tokenPath);
 
 QiitaRequest.token = tokenSetting.token;
 
+/**
+ * Qiitaの認証が正常に通るかの確認。
+ * @returns {Promise<void>}
+ */
 const test = async () => {
   const user = await QiitaRequest.getAuthenticatedUser();
   console.log(user);
