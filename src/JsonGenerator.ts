@@ -4,7 +4,6 @@ import path from "path";
 
 import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
-import remarkLinkCard from "remark-link-card";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import retextStringify from "retext-stringify";
@@ -13,6 +12,7 @@ import { unified } from "unified";
 
 import { MarkdownDownloader } from "./index.js";
 import { Options, OptionsUtil } from "./Options.js";
+import { RemarkLinkCardPlugin } from "./plugin/RemarkLinkCardPlugin.js";
 import { RemarkNotePlugin } from "./plugin/RemarkNotePlugin.js";
 
 export class JsonGenerator {
@@ -89,9 +89,13 @@ export class JsonGenerator {
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
       .use(RemarkNotePlugin.plugin)
-      .use(remarkLinkCard)
+      // .use(remarkLinkCard)
+      .use(RemarkLinkCardPlugin.plugin)
       .use(remarkRehype, {
-        handlers: { note: RemarkNotePlugin.rehypeNoteHandler as any },
+        handlers: {
+          note: RemarkNotePlugin.rehypeNoteHandler as any,
+          LinkCard: RemarkLinkCardPlugin.rehypeHandler as any,
+        },
         allowDangerousHtml: true,
       }) // mdast -> hast の変換
       .use(rehypeHighlight, { ignoreMissing: true })
