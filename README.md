@@ -28,7 +28,7 @@ The path of the token file can be changed optionally.
 ### run node script
 
 ```js
-import { JsonGenerator } from "qiita-to-md";
+import { JsonGenerator } from "@masatomakino/qiita-to-md";
 JsonGenerator.generate();
 ```
 
