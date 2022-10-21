@@ -85,21 +85,18 @@ export class JsonGenerator {
    * @param body
    */
   public static async convertToHTML(body: string) {
-    // @ts-ignore
     const result = await unified()
       .use(remarkParse) // markdown -> mdast の変換
       .use(RemarkNotePlugin.plugin)
-      // .use(remarkLinkCard)
       .use(RemarkLinkCardPlugin.plugin)
       .use(remarkRehype, {
         handlers: {
           note: RemarkNotePlugin.rehypeNoteHandler as any,
           LinkCard: RemarkLinkCardPlugin.rehypeHandler as any,
         },
-        allowDangerousHtml: true,
       }) // mdast -> hast の変換
       .use(rehypeHighlight, { ignoreMissing: true })
-      .use(rehypeStringify, { allowDangerousHtml: true }) // hast -> html の変換
+      .use(rehypeStringify) // hast -> html の変換
       .process(body); // 実行
 
     return result.value;

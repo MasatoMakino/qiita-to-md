@@ -9,7 +9,7 @@ Markdown generator from qiita.com
 ### Install
 
 ```bash
-npm install https://github.com/MasatoMakino/qiita-to-md.git --save-dev
+npm i @masatomakino/qiita-to-md --save-dev
 ```
 
 ### Add Token file
@@ -28,8 +28,8 @@ The path of the token file can be changed optionally.
 ### run node script
 
 ```js
-const qiitaToMD = require("qiita-to-md");
-qiitaToMD.JsonGenerator.generate();
+import { JsonGenerator } from "@masatomakino/qiita-to-md";
+JsonGenerator.generate();
 ```
 
 ### run on CLI
