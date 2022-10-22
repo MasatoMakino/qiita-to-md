@@ -8,7 +8,6 @@ export class MarkdownDownloader {
   public static async download(options: Options) {
     const require = createRequire(import.meta.url);
     const tokenJson = require(options.token);
-
     QiitaRequest.token = tokenJson.token;
 
     const user = await QiitaRequest.getAuthenticatedUser();
@@ -71,6 +70,11 @@ export class MarkdownDownloader {
 
   static async reformatItem(item, options: Options) {
     this.makeDir(options);
+    if (item.body.includes("�")) {
+      console.warn(
+        `[Qiita-to-MD] 記事ID : ${item.id}, タイトル : ${item.title} でJSONのパースに失敗しています。出力されたファイルを確認してください。`
+      );
+    }
     const bodyContent = await this.makeBody(item, options);
     return {
       title: item.title,

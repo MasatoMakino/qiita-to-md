@@ -22,6 +22,7 @@
     "date-fns": "^2.29.3",
     "highlight.js": "^11.6.0",
     "metadata-scraper": "^0.2.61",
+    "node-fetch": "^3.2.10",
     "rehype-highlight": "^5.0.2",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.1",
