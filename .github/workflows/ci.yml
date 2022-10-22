@@ -10,12 +10,16 @@ on:
       - "src/**"
       - "spec/**"
       - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/*.yml"
   pull_request:
     branches: [main]
     paths:
       - "src/**"
       - "spec/**"
       - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/*.yml"
 
 jobs:
   build:
