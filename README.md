@@ -3,6 +3,7 @@
 Markdown generator from qiita.com
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![build test](https://github.com/MasatoMakino/qiita-to-md/actions/workflows/ci.yml/badge.svg)](https://github.com/MasatoMakino/qiita-to-md/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/85442a6c02c73e0f380a/maintainability)](https://codeclimate.com/github/MasatoMakino/qiita-to-md/maintainability)
 
 ## Getting Started
