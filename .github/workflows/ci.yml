@@ -6,20 +6,8 @@ name: build test
 on:
   push:
     branches: [main]
-    paths:
-      - "src/**"
-      - "spec/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/*.yml"
   pull_request:
     branches: [main]
-    paths:
-      - "src/**"
-      - "spec/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/*.yml"
 
 jobs:
   build:
@@ -30,9 +18,9 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
