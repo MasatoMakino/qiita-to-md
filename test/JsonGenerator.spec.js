@@ -8,6 +8,11 @@ test("convertToHTML", async () => {
     assert.strictEqual(result, "<h2>title</h2>");
   });
 
+  await test("list should be li tag", async () => {
+    const result = await JsonGenerator.convertToHTML("- list");
+    assert.strictEqual(result, "<ul>\n<li>list</li>\n</ul>");
+  });
+
   await test("paragraph should be p tag", async () => {
     const result = await JsonGenerator.convertToHTML("just a paragraph");
     assert.strictEqual(result, "<p>just a paragraph</p>");
