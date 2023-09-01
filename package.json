@@ -46,6 +46,7 @@
     "highlight.js": "^11.7.0"
   },
   "scripts": {
+    "test": "node --test",
     "build": "npm run generate-schema:src && npm run generate-schema:bin && tsc --project ./tsconfig.json",
     "watch:build": "tsc --project ./tsconfig.json -w",
     "getQiita": "node ./bin/CLI.js",
