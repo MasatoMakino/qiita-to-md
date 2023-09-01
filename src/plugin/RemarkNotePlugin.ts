@@ -3,7 +3,7 @@ import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
 export class RemarkNotePlugin {
-  private static readonly NOTE_REGEXP = /^:::\s*note\s*([a-z]*)\n/m;
+  private static readonly NOTE_REGEXP = /^:::\s*note[ \t]*([a-z]*)\n/m;
   private static readonly NOTE_ENDING: string = "\n:::";
 
   public static plugin: Plugin = () => {
@@ -19,7 +19,13 @@ export class RemarkNotePlugin {
    */
   private static isNote(node): boolean {
     if (!RemarkNotePlugin.isTextParagraph(node)) return false;
-    return RemarkNotePlugin.isNoteParagraph(node);
+
+    const isNote = RemarkNotePlugin.isNoteParagraph(node);
+    if (isNote) {
+      console.log(node.children);
+      console.log("---");
+    }
+    return isNote;
   }
 
   private static isTextParagraph(node): boolean {
@@ -35,7 +41,7 @@ export class RemarkNotePlugin {
     if (!node.children[0].value.match(RemarkNotePlugin.NOTE_REGEXP))
       return false;
     return node.children[node.children.length - 1].value.endsWith(
-      RemarkNotePlugin.NOTE_ENDING
+      RemarkNotePlugin.NOTE_ENDING,
     );
   }
 
@@ -57,7 +63,7 @@ export class RemarkNotePlugin {
    * @private
    */
   private static processFirstChild(
-    children: Array<any>
+    children: Array<any>,
   ): string | null | undefined {
     const firstChild = children[0];
     const firstValue = firstChild.value as string;
@@ -66,7 +72,7 @@ export class RemarkNotePlugin {
     children[0] = {
       ...firstChild,
       value: firstValue.slice(
-        RemarkNotePlugin.getNoteFirstLineLength(children)
+        RemarkNotePlugin.getNoteFirstLineLength(children),
       ),
     };
 

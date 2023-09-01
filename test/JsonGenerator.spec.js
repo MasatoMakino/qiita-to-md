@@ -19,8 +19,8 @@ test("convertToHTML", async () => {
   });
 
   await test("note should be div tag with note class", async () => {
-    const result = await JsonGenerator.convertToHTML(`:::note\nノート\n:::`);
-    assert.strictEqual(result, `<div class="note">ノート</div>`);
+    const result = await JsonGenerator.convertToHTML(`:::note\nnote\n:::`);
+    assert.strictEqual(result, `<div class="note">note</div>`);
   });
 
   await test("note and warn should be div tag with note and warn class", async () => {
