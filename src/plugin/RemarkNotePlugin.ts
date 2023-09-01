@@ -19,13 +19,7 @@ export class RemarkNotePlugin {
    */
   private static isNote(node): boolean {
     if (!RemarkNotePlugin.isTextParagraph(node)) return false;
-
-    const isNote = RemarkNotePlugin.isNoteParagraph(node);
-    if (isNote) {
-      console.log(node.children);
-      console.log("---");
-    }
-    return isNote;
+    return RemarkNotePlugin.isNoteParagraph(node);
   }
 
   private static isTextParagraph(node): boolean {
@@ -33,79 +27,90 @@ export class RemarkNotePlugin {
       node.type == "paragraph" &&
       node.children &&
       node.children[0].type === "text" &&
-      node.children[node.children.length - 1].type === "text"
+      node.children.at(-1).type === "text"
     );
+  }
+
+  private static getFirstIndex(node): number {
+    return node.children.findIndex((child) => {
+      return child.value.match(RemarkNotePlugin.NOTE_REGEXP);
+    });
+  }
+  private static getLastIndex(node): number {
+    return node.children.findIndex((child) => {
+      return child.value.endsWith(RemarkNotePlugin.NOTE_ENDING);
+    });
   }
 
   private static isNoteParagraph(node): boolean {
-    if (!node.children[0].value.match(RemarkNotePlugin.NOTE_REGEXP))
-      return false;
-    return node.children[node.children.length - 1].value.endsWith(
-      RemarkNotePlugin.NOTE_ENDING,
-    );
+    const startIndex = this.getFirstIndex(node);
+    if (startIndex === -1) return false;
+
+    const endIndex = this.getLastIndex(node);
+    if (endIndex === -1) return false;
+
+    return startIndex <= endIndex;
   }
 
   private static visitor(node, index, parent) {
-    const children = [...node.children];
-    const noteType = RemarkNotePlugin.processFirstChild(children);
-    RemarkNotePlugin.processLastChild(children, RemarkNotePlugin.NOTE_ENDING);
+    const responseFirstBlock = RemarkNotePlugin.processFirstChild(node);
+    const responseLastBlock = RemarkNotePlugin.processLastChild(
+      node,
+      RemarkNotePlugin.NOTE_ENDING,
+    );
 
     parent.children[index] = {
       type: "note",
-      properties: { className: ["note", noteType] },
-      children,
+      properties: { className: ["note", responseFirstBlock.noteType] },
+      children: node.children,
     };
   }
 
   /**
    * noteパラグラフの先端を削除する
-   * @param children
+   * @param node
    * @private
    */
-  private static processFirstChild(
-    children: Array<any>,
-  ): string | null | undefined {
-    const firstChild = children[0];
+  private static processFirstChild(node): { noteType: string; index: number } {
+    const index = this.getFirstIndex(node);
+    const firstChild = node.children[index];
     const firstValue = firstChild.value as string;
 
-    const noteType = RemarkNotePlugin.getNoteType(children);
-    children[0] = {
+    const noteType = RemarkNotePlugin.getNoteType(firstValue);
+    node.children[index] = {
       ...firstChild,
       value: firstValue.slice(
-        RemarkNotePlugin.getNoteFirstLineLength(children),
+        RemarkNotePlugin.getNoteFirstLineLength(firstValue),
       ),
     };
 
-    return noteType;
+    return { noteType, index };
   }
 
   /**
    * noteパラグラフの末端を削除する
-   * @param children
+   * @param node
    * @param identifier
    * @private
    */
-  private static processLastChild(children: Array<any>, identifier: string) {
-    const lastIndex = children.length - 1;
-    const lastChild = children[lastIndex];
+  private static processLastChild(node, identifier: string) {
+    const lastIndex = this.getLastIndex(node);
+    const lastChild = node.children[lastIndex];
     const lastValue = lastChild.value as string;
-    if (lastValue === identifier) {
-      children.pop();
-    } else {
-      children[lastIndex] = {
-        ...lastChild,
-        value: lastValue.slice(0, lastValue.length - identifier.length),
-      };
-    }
+    node.children[lastIndex] = {
+      ...lastChild,
+      value: lastValue.slice(0, lastValue.length - identifier.length),
+    };
+    return { lastIndex };
   }
 
-  private static getNoteType(children: Array<any>): string | null | undefined {
-    const match = children[0].value.match(RemarkNotePlugin.NOTE_REGEXP);
+  private static getNoteType(value: string): string {
+    const match = value.match(RemarkNotePlugin.NOTE_REGEXP);
     return match?.[1];
   }
 
-  private static getNoteFirstLineLength(children: Array<any>): number {
-    const match = children[0].value.match(RemarkNotePlugin.NOTE_REGEXP);
+  private static getNoteFirstLineLength(value: string): number {
+    const match = value.match(RemarkNotePlugin.NOTE_REGEXP);
     return match?.[0].length;
   }
 
