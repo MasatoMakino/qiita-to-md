@@ -54,8 +54,8 @@ export class RemarkNotePlugin {
 
   private static visitor(node, index, parent) {
     const responseFirstBlock = RemarkNotePlugin.processFirstChild(node);
-    RemarkNotePlugin.processLastChild(
-      node.children,
+    const responseLastBlock = RemarkNotePlugin.processLastChild(
+      node,
       RemarkNotePlugin.NOTE_ENDING,
     );
 
@@ -89,22 +89,19 @@ export class RemarkNotePlugin {
 
   /**
    * noteパラグラフの末端を削除する
-   * @param children
+   * @param node
    * @param identifier
    * @private
    */
-  private static processLastChild(children: Array<any>, identifier: string) {
-    const lastIndex = children.length - 1;
-    const lastChild = children[lastIndex];
+  private static processLastChild(node, identifier: string) {
+    const lastIndex = this.getLastIndex(node);
+    const lastChild = node.children[lastIndex];
     const lastValue = lastChild.value as string;
-    if (lastValue === identifier) {
-      children.pop();
-    } else {
-      children[lastIndex] = {
-        ...lastChild,
-        value: lastValue.slice(0, lastValue.length - identifier.length),
-      };
-    }
+    node.children[lastIndex] = {
+      ...lastChild,
+      value: lastValue.slice(0, lastValue.length - identifier.length),
+    };
+    return { lastIndex };
   }
 
   private static getNoteType(value: string): string {
