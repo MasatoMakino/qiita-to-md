@@ -1,10 +1,18 @@
 # qiita-to-md
 
+> [!CAUTION] > **This repository has been archived.**
+>
+> This package is deprecated in favor of [Qiita CLI](https://github.com/increments/qiita-cli), which provides the `qiita pull` command for downloading articles as Markdown.
+>
+> **Migration:** Install Qiita CLI and use `qiita pull` to download your articles.
+>
+> **Security:** If you have a `.qiita_token.json` file, revoke the token and delete the file.
+>
+> See [#44](https://github.com/MasatoMakino/qiita-to-md/issues/44) for details.
+
 Markdown generator from qiita.com
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
-[![build test](https://github.com/MasatoMakino/qiita-to-md/actions/workflows/ci.yml/badge.svg)](https://github.com/MasatoMakino/qiita-to-md/actions/workflows/ci.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/85442a6c02c73e0f380a/maintainability)](https://codeclimate.com/github/MasatoMakino/qiita-to-md/maintainability)
 
 ## Getting Started
 

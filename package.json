@@ -1,6 +1,6 @@
 {
   "name": "@masatomakino/qiita-to-md",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "description": "Markdown generator from qiita.com",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
